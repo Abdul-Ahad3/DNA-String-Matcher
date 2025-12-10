@@ -3,7 +3,7 @@ import axios from 'axios';
 import Visualizer from './Visualizer';
 
 
-export default function Matcher() {
+function Matcher() {
 const [pattern, setPattern] = useState('ACGT');
 const [text, setText] = useState('TTTACGTAAA');
 const [result, setResult] = useState(null);
@@ -47,3 +47,5 @@ return (
 </div>
 );
 }
+
+export default Matcher;

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import Viz from 'viz.js';
-import { Module, render } from 'viz.js/full.render.js';
+import Viz from '@viz-js/viz';
+import { Module, render } from '@viz-js/viz/full.render.js';
 
-export default function Visualizer({ dot }) {
+function Visualizer({ dot }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -25,3 +25,5 @@ export default function Visualizer({ dot }) {
 
   return <div ref={ref} className="dfa-visual" />;
 }
+
+export default Visualizer;
