@@ -7,7 +7,6 @@ function Visualizer({ dot }) {
   useEffect(() => {
     if (!dot) return;
 
-    // Create a Viz instance
     const viz = new Viz();
 
     viz.renderSVGElement(dot)
