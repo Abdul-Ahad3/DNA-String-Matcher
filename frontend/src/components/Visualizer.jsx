@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import Viz from '@viz-js/viz';
-import { Module, render } from '@viz-js/viz/full.render.js';
 
 function Visualizer({ dot }) {
   const ref = useRef(null);
@@ -8,16 +7,17 @@ function Visualizer({ dot }) {
   useEffect(() => {
     if (!dot) return;
 
-    const viz = new Viz({ Module, render });
+    // Create a Viz instance
+    const viz = new Viz();
 
     viz.renderSVGElement(dot)
-      .then(element => {
+      .then((element) => {
         if (ref.current) {
           ref.current.innerHTML = '';
           ref.current.appendChild(element);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.error("Viz.js error:", err);
         viz.reset();
       });
