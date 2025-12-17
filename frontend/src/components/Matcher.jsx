@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Visualizer from './Visualizer';
 
-const BASE_URL = "https://dna-string-matcher.vercel.app/api/server";
+const BASE_URL = "https://dna-string-matcher.vercel.app/";
 
 function Matcher() {
   const [pattern, setPattern] = useState('ACGT');
