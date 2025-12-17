@@ -1,21 +1,22 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const { match, buildDFA } = require('./dfa');
-const { dfaToDot } = require('./visual');
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import { match, buildDFA } from './dfa.js';
+import { dfaToDot } from './visual.js';
 
 const app = express();
+
 app.use(cors());
 app.use(bodyParser.json());
 
-// Route: match DNA strings
+// Match route
 app.post('/match', (req, res) => {
   const { pattern = '', text = '' } = req.body;
   const result = match(pattern.toUpperCase(), text.toUpperCase());
   res.json(result);
 });
 
-// Route: return DOT format of DFA
+// DFA DOT route
 app.post('/dfa-dot', (req, res) => {
   const { pattern = '' } = req.body;
   const dfaObj = buildDFA(pattern.toUpperCase());
@@ -24,4 +25,4 @@ app.post('/dfa-dot', (req, res) => {
 });
 
 
-module.exports = app;
+export default app;

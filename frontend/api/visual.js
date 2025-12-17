@@ -1,36 +1,25 @@
-function dfaToDot(pattern, dfaObj) {
-  const { dfa, start, accept } = dfaObj;
+export function dfaToDot(pattern, dfaObj) {
+  const { dfa, accept } = dfaObj;
 
-  const nodes = [];
-  for (let s = 0; s < dfa.length; s++) {
-    const shape = (s === accept) ? 'doublecircle' : 'circle';
-    nodes.push(` q${s} [shape=${shape}, label="q${s}"];`);
-  }
+  const nodes = dfa.map((_, i) =>
+    `q${i} [shape=${i === accept ? 'doublecircle' : 'circle'}];`
+  );
 
   const edges = [];
-  for (let s = 0; s < dfa.length; s++) {
-    const table = dfa[s];
-    const map = {};
-
-    for (const ch in table) {
-      const dest = table[ch];
-      if (!map[dest]) map[dest] = [];
-      map[dest].push(ch);
+  dfa.forEach((trans, i) => {
+    const grouped = {};
+    for (const ch in trans) {
+      grouped[trans[ch]] ??= [];
+      grouped[trans[ch]].push(ch);
     }
-
-    for (const dest in map) {
-      edges.push(` q${s} -> q${dest} [label="${map[dest].join(',')}"];`);
+    for (const dest in grouped) {
+      edges.push(`q${i} -> q${dest} [label="${grouped[dest].join(',')}"];`);
     }
-  }
+  });
 
   return `digraph DFA {
   rankdir=LR;
-  node [fontsize=12];
-  ${nodes.join('\n ')}
-  
-  // edges
-  ${edges.join('\n ')}
+  ${nodes.join('\n')}
+  ${edges.join('\n')}
 }`;
 }
-
-module.exports = { dfaToDot };
