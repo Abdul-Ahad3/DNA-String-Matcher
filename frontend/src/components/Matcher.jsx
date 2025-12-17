@@ -29,9 +29,24 @@ function Matcher() {
       <input value={text} onChange={e => setText(e.target.value)} />
       <button onClick={handleMatch}>Check</button>
       
-      {result && <div>{result.match === true ? <span>DNA Sequence is matched</span> : <span>DNA Sequence is not matched</span>}</div> && 
-      <pre>{result.positions[0] ? <span>Position of existence of DNA 1 is {result.positions[0] + 1}</span> : ""}</pre>}
-      {dot && <Visualizer dot={dot} />}
+      {result && (
+  <>
+    <div>
+      {result.match === true ? (
+        <span>DNA Sequence is matched</span>
+      ) : (
+        <span>DNA Sequence is not matched</span>
+      )}
+    </div>
+    
+    {/* Check if positions exists and has length to avoid errors */}
+    {result.positions && result.positions.length > 0 && (
+      <pre>
+        <span>Position of existence of DNA 1 is {result.positions[0] + 1}</span>
+      </pre>
+    )}
+  </>
+)}
     </div>
   );
 }
