@@ -22,13 +22,14 @@ function Matcher() {
 
   return (
     <div>
-      <label>DNA 1 : </label>
+      <label> DNA 1 : </label>
       <input value={pattern} onChange={e => setPattern(e.target.value)} />
-      <label>DNA 2 : </label>
+      <label> DNA 2 : </label>
       <input value={text} onChange={e => setText(e.target.value)} />
       <button onClick={handleMatch}>Check</button>
 
-      {result && <pre>{JSON.stringify(result, null, 2)}</pre>}
+      {result && <pre>match : {result.match ? "DNA Sequence is matched" : "DNA Sequence is not matched"}</pre> && 
+      <pre>{result.positions[0] ? <span>Position of existence of DNA 1 is {result.positions[0] + 1}</span> : ""}</pre>}
       {dot && <Visualizer dot={dot} />}
     </div>
   );
