@@ -10,41 +10,23 @@ function Matcher() {
 
   async function handleMatch() {
     try {
-      //Match
-      const matchRes = await axios.post('/api/dfa', { pattern, text });
-      setResult(matchRes.data);
+      const res = await axios.post('/api/match', { pattern, text });
+      setResult(res.data);
 
-      //Build DFA locally for visualization
-      const dfaRes = await axios.post('/api/visual', {
-        pattern,
-        dfaObj: matchRes.data.dfaObj ?? undefined
-      });
-
-      setDot(dfaRes.data);
+      const dotRes = await axios.post('/api/dfa-dot', { pattern });
+      setDot(dotRes.data);
     } catch (err) {
       alert(err.message);
     }
   }
 
   return (
-    <div className="matcher">
-      <div className="inputs">
-        <label>Pattern (P):</label>
-        <input value={pattern} onChange={e => setPattern(e.target.value)} />
+    <div>
+      <input value={pattern} onChange={e => setPattern(e.target.value)} />
+      <textarea value={text} onChange={e => setText(e.target.value)} />
+      <button onClick={handleMatch}>Check</button>
 
-        <label>Text (T):</label>
-        <textarea value={text} onChange={e => setText(e.target.value)} />
-
-        <button onClick={handleMatch}>Check Match</button>
-      </div>
-
-      {result && (
-        <div>
-          <p>Match: {result.match ? 'Yes' : 'No'}</p>
-          <p>Positions: {JSON.stringify(result.positions)}</p>
-        </div>
-      )}
-
+      {result && <pre>{JSON.stringify(result, null, 2)}</pre>}
       {dot && <Visualizer dot={dot} />}
     </div>
   );

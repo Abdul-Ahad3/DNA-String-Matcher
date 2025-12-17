@@ -1,5 +1,3 @@
-// api/dfa.js
-
 const SIGMA = ['A', 'C', 'G', 'T'];
 
 function computeLPS(pattern) {
@@ -49,22 +47,4 @@ function match(pattern, text) {
   return { match: positions.length > 0, positions };
 }
 
-/* =========================
-    VERCEL API HANDLER
-   ========================= */
-export default function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  const { pattern = '', text = '' } = req.body;
-
-  const result = match(
-    pattern.toUpperCase(),
-    text.toUpperCase()
-  );
-
-  res.status(200).json(result);
-}
-
-export { buildDFA };
+export { buildDFA, match };
