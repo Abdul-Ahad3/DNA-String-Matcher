@@ -1,28 +1,27 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
 import { match, buildDFA } from './dfa.js';
 import { dfaToDot } from './visual.js';
 
-const app = express();
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-app.use(cors());
-app.use(bodyParser.json());
+  // Route selection
+  const url = req.url;
 
-// Match route
-app.post('/match', (req, res) => {
-  const { pattern = '', text = '' } = req.body;
-  const result = match(pattern.toUpperCase(), text.toUpperCase());
-  res.json(result);
-});
+  if (url.endsWith('/match')) {
+    const { pattern = '', text = '' } = req.body;
+    const result = match(pattern.toUpperCase(), text.toUpperCase());
+    return res.status(200).json(result);
+  }
 
-// DFA DOT route
-app.post('/dfa-dot', (req, res) => {
-  const { pattern = '' } = req.body;
-  const dfaObj = buildDFA(pattern.toUpperCase());
-  const dot = dfaToDot(pattern, dfaObj);
-  res.type('text/plain').send(dot);
-});
+  if (url.endsWith('/dfa-dot')) {
+    const { pattern = '' } = req.body;
+    const dfaObj = buildDFA(pattern.toUpperCase());
+    const dot = dfaToDot(pattern, dfaObj);
+    res.setHeader('Content-Type', 'text/plain');
+    return res.status(200).send(dot);
+  }
 
-
-export default app;
+  return res.status(404).json({ error: 'Route not found' });
+}
