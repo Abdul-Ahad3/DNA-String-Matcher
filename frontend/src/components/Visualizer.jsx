@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import Viz from '@viz-js/viz';
+import { instance } from '@viz-js/viz';
 
 function Visualizer({ dot }) {
   const ref = useRef(null);
@@ -7,9 +7,13 @@ function Visualizer({ dot }) {
   useEffect(() => {
     if (!dot) return;
 
-    const viz = new Viz();
+    let vizInstance;
 
-    viz.renderSVGElement(dot)
+    instance()
+      .then((viz) => {
+        vizInstance = viz;
+        return viz.renderSVGElement(dot);
+      })
       .then((element) => {
         if (ref.current) {
           ref.current.innerHTML = '';
@@ -17,9 +21,10 @@ function Visualizer({ dot }) {
         }
       })
       .catch((err) => {
-        console.error("Viz.js error:", err);
-        viz.reset();
+        console.error('Viz.js error:', err);
+        if (vizInstance?.reset) vizInstance.reset();
       });
+
   }, [dot]);
 
   return <div ref={ref} className="dfa-visual" />;
