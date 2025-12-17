@@ -1,3 +1,7 @@
 {
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "install-frontend": "cd frontend && npm install",
+    "build": "npm run install-frontend && cd frontend && npm run build"
+  }
 }
