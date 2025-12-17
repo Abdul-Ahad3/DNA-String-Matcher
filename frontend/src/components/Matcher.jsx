@@ -47,6 +47,7 @@ function Matcher() {
     )}
   </>
 )}
+      {dot && <Visualizer dot={dot} />}
     </div>
   );
 }
