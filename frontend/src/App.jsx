@@ -8,7 +8,7 @@ function App() {
     <>
      
       <div className="app">
-        <h1>DNA String Matcher</h1>
+        <h1>BioMatch: DNA String Matcher</h1>
         <Matcher />
       </div>
     </>
