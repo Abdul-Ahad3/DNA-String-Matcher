@@ -1,9 +1,10 @@
 {
   "builds": [
-    { "src": "server.js", "use": "@vercel/node" }
+    { "src": "package.json", "use": "@vercel/static-build" }, 
+    { "src": "../api/server.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/match", "dest": "/server.js" },
-    { "src": "/dfa-dot", "dest": "/server.js" }
+    { "src": "/match", "dest": "../api/server.js" },
+    { "src": "/dfa-dot", "dest": "../api/server.js" }
   ]
 }
