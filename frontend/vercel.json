@@ -5,6 +5,7 @@
   ],
   "routes": [
     { "src": "/match", "dest": "../api/server.js" },
-    { "src": "/dfa-dot", "dest": "../api/server.js" }
+    { "src": "/dfa-dot", "dest": "../api/server.js" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
