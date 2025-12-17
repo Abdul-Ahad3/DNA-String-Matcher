@@ -1,6 +1,3 @@
 {
-  "type": "module",
-  "dependencies": {
-    "@viz-js/viz": "^3.23.0"
-  }
+  "type": "module"
 }
