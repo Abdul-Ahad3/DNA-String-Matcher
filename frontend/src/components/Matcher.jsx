@@ -22,8 +22,10 @@ function Matcher() {
 
   return (
     <div>
+      <label>DNA 1 : </label>
       <input value={pattern} onChange={e => setPattern(e.target.value)} />
-      <textarea value={text} onChange={e => setText(e.target.value)} />
+      <label>DNA 2 : </label>
+      <input value={text} onChange={e => setText(e.target.value)} />
       <button onClick={handleMatch}>Check</button>
 
       {result && <pre>{JSON.stringify(result, null, 2)}</pre>}
