@@ -10,10 +10,16 @@ function Matcher() {
 
   async function handleMatch() {
     try {
-      const res = await axios.post('/api/server/match', { pattern, text });
-      setResult(res.data);
+      //Match
+      const matchRes = await axios.post('/api/dfa', { pattern, text });
+      setResult(matchRes.data);
 
-      const dfaRes = await axios.post('/api/server/dfa-dot', { pattern });
+      //Build DFA locally for visualization
+      const dfaRes = await axios.post('/api/visual', {
+        pattern,
+        dfaObj: matchRes.data.dfaObj ?? undefined
+      });
+
       setDot(dfaRes.data);
     } catch (err) {
       alert(err.message);

@@ -1,3 +1,5 @@
+// api/dfa.js
+
 const SIGMA = ['A', 'C', 'G', 'T'];
 
 function computeLPS(pattern) {
@@ -16,7 +18,7 @@ function computeLPS(pattern) {
   return lps;
 }
 
-export function buildDFA(pattern) {
+function buildDFA(pattern) {
   const lps = computeLPS(pattern);
   const dfa = Array.from({ length: pattern.length + 1 }, () => ({}));
 
@@ -32,7 +34,7 @@ export function buildDFA(pattern) {
   return { dfa, start: 0, accept: pattern.length };
 }
 
-export function match(pattern, text) {
+function match(pattern, text) {
   if (!pattern) return { match: true, positions: [] };
 
   const { dfa, accept } = buildDFA(pattern);
@@ -46,3 +48,23 @@ export function match(pattern, text) {
 
   return { match: positions.length > 0, positions };
 }
+
+/* =========================
+    VERCEL API HANDLER
+   ========================= */
+export default function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { pattern = '', text = '' } = req.body;
+
+  const result = match(
+    pattern.toUpperCase(),
+    text.toUpperCase()
+  );
+
+  res.status(200).json(result);
+}
+
+export { buildDFA };
